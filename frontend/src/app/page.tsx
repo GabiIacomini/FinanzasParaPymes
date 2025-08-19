@@ -1,23 +1,33 @@
-import { Button } from "@/components/ui/button";
+import { WelcomeMessage } from "@/components/dashboard/welcome-message";
+import { CurrencyBanner } from "@/components/dashboard/currency-banner";
+import { SummaryCards } from "@/components/dashboard/summary-cards";
+import { ActionButtons } from "@/components/dashboard/action-buttons";
+import { TransactionsChart } from "@/components/dashboard/transactions-chart";
+import { RecentTransactions } from "@/components/dashboard/recent-transactions";
+import { TransactionModal } from "@/components/dashboard/transaction-modal";
 
 export default function HomePage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-background text-foreground">
-      <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-        <div className="flex flex-col items-center gap-2 text-center">
-          <h1 className="text-5xl font-extrabold tracking-tight">
-            Plataforma de Análisis Financiero
-          </h1>
-          <p className="text-2xl text-muted-foreground">
-            Proyecciones para Pymes en el contexto argentino.
-          </p>
-        </div>
-        <div className="flex gap-4">
-          <Button>Empezar</Button>
-          <Button variant="secondary">Ver Demo</Button>
-          <Button variant="outline">Contacto</Button>
+    <div className="container mx-auto py-8 px-4">
+      <WelcomeMessage />
+      <CurrencyBanner />
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-6">
+        <div className="md:col-span-2">
+          <ActionButtons />
+          <SummaryCards />
         </div>
       </div>
-    </main>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 my-6">
+        <TransactionsChart />
+        {/* Placeholder for Expense Categories */}
+      </div>
+
+      <RecentTransactions />
+
+      {/* The modal is included here but will be controlled by state */}
+      <TransactionModal />
+    </div>
   );
 }
