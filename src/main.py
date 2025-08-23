@@ -1,32 +1,38 @@
-import uvicorn
-import os
+from fastapi import FastAPI
+from src.db.session import engine
+from src.db.models import Base
+# El router principal de la API se importará aquí una vez que se cree.
+from src.api.router import api_router
 
-def start():
+app = FastAPI(
+    title="FinTech API - Agente de Análisis Financiero",
+    description="API para la aplicación FinTech, proporcionando análisis y gestión financiera para pymes.",
+    version="1.0.0",
+)
+
+@app.on_event("startup")
+async def startup_event():
     """
-    Punto de entrada para iniciar el servidor de la API en producción.
-    Utiliza Uvicorn para correr la aplicación FastAPI definida en `src/api.py`.
+    Evento que se ejecuta al iniciar la aplicación.
+    Crea todas las tablas de la base de datos definidas en los modelos de SQLAlchemy.
+
+    ADVERTENCIA: `create_all` es adecuado para entornos de desarrollo y pruebas.
+    Para producción, se debe utilizar un sistema de migración de bases de datos como Alembic
+    para gestionar los cambios de esquema de forma segura sin perder datos.
     """
-    # Obtener el puerto desde las variables de entorno, con un valor por defecto.
-    # Replit, por ejemplo, establece la variable PORT automáticamente.
-    port = int(os.getenv("PORT", 8000))
+    async with engine.begin() as conn:
+        # La siguiente línea borraría todas las tablas al reiniciar. Útil para pruebas.
+        # await conn.run_sync(Base.metadata.drop_all)
 
-    uvicorn.run(
-        "src.api:app",
-        host="0.0.0.0",
-        port=port,
-        reload=True  # 'reload=True' es útil para desarrollo, se puede quitar en producción.
-    )
+        # Crea las tablas si no existen.
+        await conn.run_sync(Base.metadata.create_all)
 
-if __name__ == "__main__":
-    # Verificar que las variables de entorno necesarias estén configuradas antes de iniciar.
-    required_vars = ["GOOGLE_API_KEY", "API_SECRET_KEY"]
-    missing_vars = [var for var in required_vars if not os.getenv(var)]
+# En el siguiente paso, se creará y se incluirá el router principal de la API.
+app.include_router(api_router, prefix="/api/v1")
 
-    if missing_vars:
-        print("Error: Faltan las siguientes variables de entorno requeridas:")
-        for var in missing_vars:
-            print(f"- {var}")
-        print("\nPor favor, configura estas variables (en Replit, usa la pestaña 'Secrets') y vuelve a intentarlo.")
-    else:
-        print("Iniciando el servidor de la API...")
-        start()
+@app.get("/", summary="Health Check", tags=["Status"])
+async def root():
+    """
+    Endpoint principal que se puede usar para verificar que la API está en funcionamiento.
+    """
+    return {"status": "ok", "message": "Bienvenido a la API de FinTech"}
