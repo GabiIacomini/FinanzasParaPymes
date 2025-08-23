@@ -1,0 +1,16 @@
+Fecha,Descripción,Categoría,Ingreso,Egreso
+2024-01-05,"Venta de consultoría inicial","Ventas",75000,0
+2024-01-10,"Compra de licencia de software","Gastos de Software",0,15000
+2024-01-15,"Pago de alquiler de oficina","Gastos Fijos",0,50000
+2024-01-25,"Venta de producto A","Ventas",25000,0
+2024-01-30,"Pago de salarios","Salarios",0,90000
+2024-02-03,"Campaña publicitaria en redes","Marketing",0,22000
+2024-02-06,"Venta de consultoría recurrente","Ventas",60000,0
+2024-02-15,"Pago de alquiler de oficina","Gastos Fijos",0,50000
+2024-02-20,"Compra de insumos para oficina","Gastos Administrativos",0,8000
+2024-02-22,"Venta de producto B","Ventas",35000,0
+2024-02-28,"Pago de salarios","Salarios",0,90000
+2024-03-05,"Venta de consultoría final","Ventas",110000,0
+2024-03-10,"Servicios de contador","Servicios Profesionales",0,25000
+2024-03-15,"Pago de alquiler de oficina","Gastos Fijos",0,50000
+2024-03-29,"Pago de salarios","Salarios",0,90000
